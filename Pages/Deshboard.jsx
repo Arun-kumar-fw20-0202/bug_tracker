@@ -9,6 +9,7 @@ import {
   handleGetCritical,
   handleGetLow,
   handleGetMedium,
+  removeBugdata,
 } from "../Redux/Item/Item.action";
 import { useLocation } from "react-router-dom";
 import { Critical } from "../Components/Critical";
@@ -29,7 +30,7 @@ export const Deshboard = () => {
       major: store.MajorReducer.major,
       medium: store.MediumReducer.medium,
     };
-  });
+  }, shallowEqual);
 
   const handleCreateBug1 = () => {
     setShow(true);
@@ -65,8 +66,8 @@ export const Deshboard = () => {
     setShow(false);
   };
 
-  const handleDelete = (id) => {
-    alert(id);
+  const handleDelete = (id, type) => {
+    dispatch(removeBugdata({ id, type }));
   };
 
   useEffect(() => {
@@ -160,7 +161,11 @@ export const Deshboard = () => {
               {low.length > 0 &&
                 low.map((ele) => (
                   <>
-                    <Low ke={Math.random} {...ele} />
+                    <Low
+                      handleDelete={handleDelete}
+                      key={Math.random}
+                      {...ele}
+                    />
                   </>
                 ))}
             </div>

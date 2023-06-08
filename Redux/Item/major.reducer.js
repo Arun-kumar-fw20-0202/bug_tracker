@@ -1,9 +1,9 @@
 import {
   GET_BUG_MAJOR,
   ERROR,
-  REMOVE_BUG,
   REQUEST,
   ADD_MAJOR,
+  REMOVE_MAJOR_BUG,
 } from "./Item.actionType";
 
 const initialState = {
@@ -46,7 +46,7 @@ export const MajorReducer = (state = initialState, { type, payload }) => {
         isError: (state.isError = true),
       };
 
-    case REMOVE_BUG: {
+    case REMOVE_MAJOR_BUG: {
       const filterPost = state.major.filter((ele) => ele.id != payload);
       return { ...state, major: filterPost };
     }

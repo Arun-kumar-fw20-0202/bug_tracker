@@ -4,6 +4,7 @@ import {
   REMOVE_BUG,
   REQUEST,
   ADD_CRITICAL,
+  REMOVE_CRITICAL_BUG,
 } from "./Item.actionType";
 
 const initialState = {
@@ -46,7 +47,7 @@ export const CriticalReducer = (state = initialState, { type, payload }) => {
         isError: (state.isError = true),
       };
 
-    case REMOVE_BUG: {
+    case REMOVE_CRITICAL_BUG: {
       const filterPost = state.critical.filter((ele) => ele.id != payload);
       return { ...state, critical: filterPost };
     }

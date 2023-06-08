@@ -4,6 +4,7 @@ import {
   REMOVE_BUG,
   REQUEST,
   ADD_LOW,
+  REMOVE_LOW_BUG,
 } from "./Item.actionType";
 
 const initialState = {
@@ -44,7 +45,7 @@ export const LowReducer = (state = initialState, { type, payload }) => {
         isError: (state.isError = true),
       };
 
-    case REMOVE_BUG: {
+    case REMOVE_LOW_BUG: {
       const filterPost = state.low.filter((ele) => ele.id != payload);
       return { ...state, low: filterPost };
     }

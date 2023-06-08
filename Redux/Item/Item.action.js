@@ -1,6 +1,5 @@
 import axios from "axios";
 import {
-  ADD_BUG,
   ERROR,
   GET_BUG_CRITICAL,
   GET_BUG_LOW,
@@ -34,10 +33,48 @@ export const Error = () => {
   return { type: ERROR };
 };
 
+export const handleDelete = (type, payload) => {
+  // axios.delete
+  console.log(type, payload);
+  return { type: type, payload };
+};
+//
+
+export const removeBugdata = (data) => async (dispatch) => {
+  const { id, type } = data;
+  var payLoadType = "";
+
+  if (type == "major") {
+    payLoadType = "REMOVE_MAJOR_BUG";
+  } else if (type == "critical") {
+    payLoadType = "REMOVE_CRITICAL_BUG";
+  } else if (type == "medium") {
+    payLoadType = "REMOVE_MEDIUM_BUG";
+  } else if (type == "low") {
+    payLoadType = "REMOVE_LOW_BUG";
+  }
+  try {
+    const res = await fetch(
+      `https://bug-tracker-data.onrender.com/${type}/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    let data = await res.json();
+    dispatch(handleDelete(payLoadType, id));
+    // window.location.reload();
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 //
 export const handleAddBug = (data) => (dispatch) => {
-  let payLoadType = "";
   const { type, bug } = data;
+  let payLoadType = "";
   if (type == "major") {
     payLoadType = "ADD_MAJOR";
   } else if (type == "critical") {
@@ -50,7 +87,7 @@ export const handleAddBug = (data) => (dispatch) => {
 
   dispatch(Request());
   axios
-    .post(`http://localhost:8080/${type}`, { bug: bug })
+    .post(`https://bug-tracker-data.onrender.com/${type}`, { bug: bug })
     .then((res) => {
       dispatch(addPostSuccess(payLoadType, res.data));
     })
@@ -62,7 +99,7 @@ export const handleAddBug = (data) => (dispatch) => {
 export const handleGetBugs = (dispatch) => {
   dispatch(Request);
   axios
-    .get("http://localhost:8080/major")
+    .get("https://bug-tracker-data.onrender.com/major")
     .then((res) => {
       dispatch(getMajorBugs(res.data));
     })
@@ -74,7 +111,7 @@ export const handleGetBugs = (dispatch) => {
 export const handleGetCritical = (dispatch) => {
   dispatch(Request);
   axios
-    .get("http://localhost:8080/critical")
+    .get("https://bug-tracker-data.onrender.com/critical")
     .then((res) => {
       dispatch(getCriticalBugs(res.data));
     })
@@ -86,7 +123,7 @@ export const handleGetCritical = (dispatch) => {
 export const handleGetLow = (dispatch) => {
   dispatch(Request);
   axios
-    .get("http://localhost:8080/low")
+    .get("https://bug-tracker-data.onrender.com/low")
     .then((res) => {
       dispatch(getLowBugs(res.data));
     })
@@ -98,7 +135,7 @@ export const handleGetLow = (dispatch) => {
 export const handleGetMedium = (dispatch) => {
   dispatch(Request);
   axios
-    .get("http://localhost:8080/medium")
+    .get("https://bug-tracker-data.onrender.com/medium")
     .then((res) => {
       dispatch(getMediumBugs(res.data));
     })

@@ -4,6 +4,7 @@ import {
   REMOVE_BUG,
   REQUEST,
   ADD_MEDIUM,
+  REMOVE_MEDIUM_BUG,
 } from "./Item.actionType";
 
 const initialState = {
@@ -44,7 +45,7 @@ export const MediumReducer = (state = initialState, { type, payload }) => {
         isError: (state.isError = true),
       };
 
-    case REMOVE_BUG: {
+    case REMOVE_MEDIUM_BUG: {
       const filterPost = state.medium.filter((ele) => ele.id != payload);
       return { ...state, medium: filterPost };
     }
